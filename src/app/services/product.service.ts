@@ -16,4 +16,12 @@ export class ProductService {
   add(product: Product) {
     return this.http.post<Product>(`${environment.apiUrl}/add`, product);
   }
+
+  update(product: Product) {
+    return this.http.post<Product>(`${environment.apiUrl}/update`, product);
+  }
+
+  delete(productId: number) {
+    return this.http.delete(`${environment.apiUrl}/delete/${productId}`);
+  }
 }

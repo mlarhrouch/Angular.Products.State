@@ -14,7 +14,9 @@ export class ProductDialogComponent implements OnInit {
   nameCtrl: FormControl;
   quantityCtrl: FormControl;
   priceCtrl: FormControl;
+  idCtrl: FormControl;
   form: FormGroup;
+  editMode = true;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Product,
@@ -24,22 +26,42 @@ export class ProductDialogComponent implements OnInit {
   ) {
     if (!data) {
       data = new Product();
+      this.editMode = false;
     }
 
     this.nameCtrl = new FormControl(data.ProductName, Validators.required);
     this.quantityCtrl = new FormControl(data.Quantity, Validators.required);
     this.priceCtrl = new FormControl(data.Price, Validators.required);
+    this.idCtrl = new FormControl(data.ProductId);
 
     this.form = new FormGroup({
       productName: this.nameCtrl,
       quantity: this.quantityCtrl,
-      price: this.priceCtrl
+      price: this.priceCtrl,
+      productId: this.idCtrl
     });
   }
 
   ngOnInit() {}
 
   doSave() {
+    if (this.editMode) {
+      this.doUpdate();
+    } else {
+      this.doAdd();
+    }
+  }
+
+  doUpdate() {
+    this.productService.update(this.form.value).subscribe(res => {
+      if (res) {
+        this.dialogRef.close(res);
+        this.openSnackBar("Successfully updated");
+      }
+    });
+  }
+
+  doAdd() {
     this.productService.add(this.form.value).subscribe(res => {
       if (res) {
         this.dialogRef.close(res);

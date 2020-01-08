@@ -36,4 +36,20 @@ export class ProductListComponent implements OnInit {
       this.dataSource.data = [...this.dataSource.data, result];
     });
   }
+
+  onEdit(product: Product) {
+    const dialogRef = this.dialog.open(ProductDialogComponent, {
+      data: product
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      let item = this.dataSource.data.find(
+        d => d.ProductId == product.ProductId
+      );
+      const index = this.dataSource.data.indexOf(item);
+
+      this.dataSource.data[index] = result;
+      this.dataSource.data = [...this.dataSource.data];
+    });
+  }
 }
