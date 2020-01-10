@@ -5,6 +5,8 @@ import { MatPaginator } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatDialog } from "@angular/material/dialog";
 import { ProductDialogComponent } from "../product-dialog/product-dialog.component";
+import { ConfirmationDialogComponent } from "../confirmation-dialog/confirmation-dialog.component";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-product-list",
@@ -19,6 +21,7 @@ export class ProductListComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
+    private snackBar: MatSnackBar,
     public dialog: MatDialog
   ) {}
 
@@ -51,5 +54,33 @@ export class ProductListComponent implements OnInit {
       this.dataSource.data[index] = result;
       this.dataSource.data = [...this.dataSource.data];
     });
+  }
+
+  onDelete(product: Product) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: "Do you want to remove this item ?"
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.productService.delete(product.ProductId).subscribe(res => {
+          if (res) {
+            let item = this.dataSource.data.find(
+              d => d.ProductId == product.ProductId
+            );
+            const index = this.dataSource.data.indexOf(item);
+
+            this.dataSource.data.splice(index, 1);
+            this.dataSource.data = [...this.dataSource.data];
+
+            this.openSnackBar("Item successfully deleted");
+          }
+        });
+      }
+    });
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, "", { duration: 3000 });
   }
 }

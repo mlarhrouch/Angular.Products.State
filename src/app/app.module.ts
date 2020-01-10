@@ -46,7 +46,7 @@ import {
     MatSnackBarModule
   ],
   providers: [],
-  entryComponents: [ProductDialogComponent],
+  entryComponents: [ProductDialogComponent, ConfirmationDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
