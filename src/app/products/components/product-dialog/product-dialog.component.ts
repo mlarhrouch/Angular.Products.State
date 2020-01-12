@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Product } from "src/app/models";
 import { FormControl, Validators, FormGroup } from "@angular/forms";
-import { ProductService } from "src/app/services";
+import { ProductService } from "src/app/products/services";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({

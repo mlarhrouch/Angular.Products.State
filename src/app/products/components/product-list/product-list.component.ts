@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Product } from "src/app/models";
-import { ProductService } from "src/app/services/product.service";
+import { ProductService } from "src/app/products/services/product.service";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatDialog } from "@angular/material/dialog";
