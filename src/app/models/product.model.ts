@@ -1,6 +1,6 @@
 export class Product {
-  ProductId: number;
-  ProductName: string;
-  Quantity: number;
-  Price: number;
+  id: number;
+  name: string;
+  quantity: number;
+  price: number;
 }

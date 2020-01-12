@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: "https://webapiservice20191206100153.azurewebsites.net/products"
+  apiUrl: "/api/products"
 };
 
 /*

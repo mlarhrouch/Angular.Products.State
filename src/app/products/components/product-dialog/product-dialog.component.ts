@@ -29,16 +29,16 @@ export class ProductDialogComponent implements OnInit {
       this.editMode = false;
     }
 
-    this.nameCtrl = new FormControl(data.ProductName, Validators.required);
-    this.quantityCtrl = new FormControl(data.Quantity, Validators.required);
-    this.priceCtrl = new FormControl(data.Price, Validators.required);
-    this.idCtrl = new FormControl(data.ProductId);
+    this.nameCtrl = new FormControl(data.name, Validators.required);
+    this.quantityCtrl = new FormControl(data.quantity, Validators.required);
+    this.priceCtrl = new FormControl(data.price, Validators.required);
+    this.idCtrl = new FormControl(data.id);
 
     this.form = new FormGroup({
-      productName: this.nameCtrl,
+      name: this.nameCtrl,
       quantity: this.quantityCtrl,
       price: this.priceCtrl,
-      productId: this.idCtrl
+      id: this.idCtrl
     });
   }
 

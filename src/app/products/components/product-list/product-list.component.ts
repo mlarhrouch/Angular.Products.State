@@ -46,9 +46,7 @@ export class ProductListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      let item = this.dataSource.data.find(
-        d => d.ProductId == product.ProductId
-      );
+      let item = this.dataSource.data.find(d => d.id == product.id);
       const index = this.dataSource.data.indexOf(item);
 
       this.dataSource.data[index] = result;
@@ -63,11 +61,9 @@ export class ProductListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.productService.delete(product.ProductId).subscribe(res => {
+        this.productService.delete(product.id).subscribe(res => {
           if (res) {
-            let item = this.dataSource.data.find(
-              d => d.ProductId == product.ProductId
-            );
+            let item = this.dataSource.data.find(d => d.id == product.id);
             const index = this.dataSource.data.indexOf(item);
 
             this.dataSource.data.splice(index, 1);
