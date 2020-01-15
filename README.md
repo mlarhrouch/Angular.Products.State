@@ -1,6 +1,10 @@
 # ProductsApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.15.
+A CRUD app developed using Angular 8 and Angular Material 
+
+## Fake Web Api
+
+Run `npm run api` to launch the fake web api
 
 ## Development server
 
