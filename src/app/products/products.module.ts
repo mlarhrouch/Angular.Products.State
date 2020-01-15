@@ -8,7 +8,7 @@ import {
   ConfirmationDialogComponent,
   ProductDialogComponent
 } from "./components";
-import { ProductService } from "./services";
+import { ProductService } from "../core";
 import { SharedModule } from "../shared/shared.module";
 
 @NgModule({

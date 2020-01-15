@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { Product } from "src/app/models";
-import { ProductService } from "src/app/products/services/product.service";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatDialog } from "@angular/material/dialog";
 import { ProductDialogComponent } from "../product-dialog/product-dialog.component";
 import { ConfirmationDialogComponent } from "../confirmation-dialog/confirmation-dialog.component";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { Product, ProductService } from "src/app/core";
 
 @Component({
   selector: "app-product-list",
