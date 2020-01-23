@@ -3,6 +3,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { FormControl, Validators, FormGroup } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Product, ProductService } from "src/app/core";
+import { Store } from "@ngxs/store";
+import { UpdateProduct, AddProduct } from "src/app/core/store";
 
 @Component({
   selector: "app-product-dialog",
@@ -21,7 +23,7 @@ export class ProductDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Product,
     private dialogRef: MatDialogRef<ProductDialogComponent>,
     private snackBar: MatSnackBar,
-    private productService: ProductService
+    private store: Store
   ) {
     if (!data) {
       data = new Product();
@@ -52,18 +54,18 @@ export class ProductDialogComponent implements OnInit {
   }
 
   doUpdate() {
-    this.productService.update(this.form.value).subscribe(res => {
+    this.store.dispatch(new UpdateProduct(this.form.value)).subscribe(res => {
       if (res) {
-        this.dialogRef.close(res);
+        this.dialogRef.close();
         this.openSnackBar("Successfully updated");
       }
     });
   }
 
   doAdd() {
-    this.productService.add(this.form.value).subscribe(res => {
+    this.store.dispatch(new AddProduct(this.form.value)).subscribe(res => {
       if (res) {
-        this.dialogRef.close(res);
+        this.dialogRef.close();
         this.openSnackBar("Successfully added");
       }
     });

@@ -5,7 +5,10 @@ import { MatDialog } from "@angular/material/dialog";
 import { ProductDialogComponent } from "../product-dialog/product-dialog.component";
 import { ConfirmationDialogComponent } from "../confirmation-dialog/confirmation-dialog.component";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { Product, ProductService } from "src/app/core";
+import { Product } from "src/app/core";
+import { Store, Select } from "@ngxs/store";
+import { Observable } from "rxjs";
+import { ProductState, GetProducts, DeleteProduct } from "src/app/core/store";
 
 @Component({
   selector: "app-product-list",
@@ -13,43 +16,34 @@ import { Product, ProductService } from "src/app/core";
   styleUrls: ["./product-list.component.scss"]
 })
 export class ProductListComponent implements OnInit {
+  @Select(ProductState.getProductsList) products: Observable<Product[]>;
   public dataSource = new MatTableDataSource<Product>();
   displayedColumns: string[] = ["name", "quantity", "price", "actions"];
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
   constructor(
-    private productService: ProductService,
+    private store: Store,
     private snackBar: MatSnackBar,
     public dialog: MatDialog
   ) {}
 
   ngOnInit() {
-    this.productService.getAll().subscribe(res => {
+    this.store.dispatch(new GetProducts());
+
+    this.products.subscribe(data => {
       this.dataSource.paginator = this.paginator;
-      this.dataSource.data = res;
+      this.dataSource.data = data;
     });
   }
 
   onAdd() {
-    const dialogRef = this.dialog.open(ProductDialogComponent);
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.dataSource.data = [...this.dataSource.data, result];
-    });
+    this.dialog.open(ProductDialogComponent);
   }
 
   onEdit(product: Product) {
-    const dialogRef = this.dialog.open(ProductDialogComponent, {
+    this.dialog.open(ProductDialogComponent, {
       data: product
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      let item = this.dataSource.data.find(d => d.id == product.id);
-      const index = this.dataSource.data.indexOf(item);
-
-      this.dataSource.data[index] = result;
-      this.dataSource.data = [...this.dataSource.data];
     });
   }
 
@@ -60,16 +54,8 @@ export class ProductListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.productService.delete(product.id).subscribe(res => {
-          if (res) {
-            let item = this.dataSource.data.find(d => d.id == product.id);
-            const index = this.dataSource.data.indexOf(item);
-
-            this.dataSource.data.splice(index, 1);
-            this.dataSource.data = [...this.dataSource.data];
-
-            this.openSnackBar("Item successfully deleted");
-          }
+        this.store.dispatch(new DeleteProduct(product.id)).subscribe(res => {
+          this.openSnackBar("Item successfully deleted");
         });
       }
     });

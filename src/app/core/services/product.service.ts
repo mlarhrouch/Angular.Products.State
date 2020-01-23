@@ -3,7 +3,9 @@ import { HttpClient } from "@angular/common/http";
 import { Product } from "src/app/core";
 import { environment } from "src/environments/environment";
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class ProductService {
   constructor(private http: HttpClient) {}
 

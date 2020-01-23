@@ -8,6 +8,12 @@ import { AppComponent } from "./app.component";
 import { SharedModule } from "./shared/shared.module";
 import { CoreModule } from "./core/core.module";
 
+import { NgxsModule } from "@ngxs/store";
+import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
+import { NgxsLoggerPluginModule } from "@ngxs/logger-plugin";
+import { appState } from "./core/store";
+import { environment } from "src/environments/environment";
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -16,7 +22,10 @@ import { CoreModule } from "./core/core.module";
     HttpClientModule,
     BrowserAnimationsModule,
     CoreModule,
-    SharedModule
+    SharedModule,
+    NgxsModule.forRoot(appState, { developmentMode: !environment.production }),
+    NgxsReduxDevtoolsPluginModule.forRoot(),
+    NgxsLoggerPluginModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
